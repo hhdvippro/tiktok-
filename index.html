@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Link Collector</title>
+    <style>
+        :root {
+            --primary-color: rgba(56, 202, 179, 0.2);
+            --primary-color-solid: rgb(56, 202, 179);
+            --secondary-color: #ffffff;
+            --text-color: #333333;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: var(--secondary-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary-color-solid), rgba(56, 202, 179, 0.5));
+        }
+        
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color-solid);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            border-color: var(--primary-color-solid);
+            box-shadow: 0 0 0 3px rgba(56, 202, 179, 0.2);
+        }
+        
+        button {
+            background-color: var(--primary-color-solid);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: rgb(45, 180, 160);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 202, 179, 0.3);
+        }
+        
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .success {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+        }
+        
+        .error {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+            text-align: left;
+            padding: 15px;
+            background-color: rgba(56, 202, 179, 0.05);
+            border-radius: 8px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <i class="fab fa-tiktok"></i>
+            <span>TikTok Link Collector</span>
+        </div>
+        <h1>Share TikTok Videos with Me</h1>
+        <div class="input-group">
+            <input type="text" id="tiktokLink" placeholder="Paste TikTok video link here..." required>
+        </div>
+        <button id="submitBtn">Send to Telegram</button>
+        
+        <div id="message" class="message"></div>
+        
+        <div class="instructions">
+            <p><strong>How to use:</strong></p>
+            <ol>
+                <li>Open TikTok and find a video you want to share</li>
+                <li>Tap "Share" and then "Copy link"</li>
+                <li>Paste the link in the field above</li>
+                <li>Click "Send to Telegram"</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            const tiktokLink = document.getElementById('tiktokLink').value.trim();
+            const messageDiv = document.getElementById('message');
+            
+            // Clear previous messages
+            messageDiv.style.display = 'none';
+            messageDiv.className = 'message';
+            
+            // Validate TikTok link
+            if (!tiktokLink) {
+                showMessage('Please enter a TikTok link', 'error');
+                return;
+            }
+            
+            if (!isValidTikTokLink(tiktokLink)) {
+                showMessage('Please enter a valid TikTok video link', 'error');
+                return;
+            }
+            
+            // Send to Telegram (you'll need to replace this with your actual Telegram bot API)
+            sendToTelegram(tiktokLink);
+        });
+        
+        function isValidTikTokLink(link) {
+            // Simple validation - you might want to make this more robust
+            return link.includes('tiktok.com') && (link.includes('/video/') || link.includes('/v/'));
+        }
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.classList.add(type);
+            messageDiv.style.display = 'block';
+        }
+        
+        function sendToTelegram(link) {
+            // Replace this with your actual Telegram bot API integration
+            // This is just a simulation for the demo
+            
+            // Your Telegram bot token and chat ID
+            const botToken = 'YOUR_BOT_TOKEN';
+            const chatId = 'YOUR_CHAT_ID';
+            
+            // In a real implementation, you would use fetch() or similar to send to Telegram API
+            // For now, we'll just simulate a successful send
+            setTimeout(() => {
+                showMessage('Link sent successfully to Telegram!', 'success');
+                document.getElementById('tiktokLink').value = '';
+            }, 1000);
+            
+            // Actual implementation would look something like this:
+            /*
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(link)}`)
+                .then(response => response.json())
+                .then(data => {
+                    showMessage('Link sent successfully to Telegram!', 'success');
+                    document.getElementById('tiktokLink').value = '';
+                })
+                .catch(error => {
+                    showMessage('Failed to send link. Please try again.', 'error');
+                    console.error('Error:', error);
+                });
+            */
+        }
+    </script>
+</body>
+</html>
