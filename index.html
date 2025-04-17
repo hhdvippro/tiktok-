@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Link Collector</title>
+    <title>Buff View TikTok Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: rgba(56, 202, 179, 0.2);
-            --primary-color-solid: rgb(56, 202, 179);
-            --secondary-color: #ffffff;
-            --text-color: #333333;
-            --shadow-color: rgba(0, 0, 0, 0.1);
+            --primary: #FE2C55;
+            --secondary: #25F4EE;
+            --dark: #161823;
+            --light: #FFFFFF;
+            --gray: #F1F1F2;
         }
         
         * {
@@ -21,225 +22,317 @@
         }
         
         body {
-            background-color: #f5f5f5;
+            background-color: var(--gray);
+            color: var(--dark);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(37, 244, 238, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(254, 44, 85, 0.1) 0%, transparent 20%);
         }
         
         .container {
-            background-color: var(--secondary-color);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px var(--shadow-color);
             width: 100%;
             max-width: 500px;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 2rem;
+            margin: 1rem;
         }
         
-        .container::before {
+        .card {
+            background: var(--light);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 10px;
-            background: linear-gradient(90deg, var(--primary-color-solid), rgba(56, 202, 179, 0.5));
-        }
-        
-        h1 {
-            color: var(--text-color);
-            margin-bottom: 30px;
-            font-weight: 600;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
         
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-color-solid);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
+            margin-bottom: 1.5rem;
         }
         
         .logo i {
-            margin-right: 10px;
-            font-size: 28px;
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .logo h1 {
+            margin-top: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .description {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #666;
+            line-height: 1.6;
         }
         
         .input-group {
             position: relative;
-            margin-bottom: 30px;
+            margin-bottom: 1.5rem;
         }
         
-        input {
+        .input-group input {
             width: 100%;
-            padding: 15px 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 50px;
-            font-size: 16px;
-            outline: none;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
             transition: all 0.3s ease;
+            background-color: var(--gray);
         }
         
-        input:focus {
-            border-color: var(--primary-color-solid);
-            box-shadow: 0 0 0 3px rgba(56, 202, 179, 0.2);
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(37, 244, 238, 0.2);
         }
         
-        button {
-            background-color: var(--primary-color-solid);
-            color: white;
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 1rem;
             border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 16px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
         
-        button:hover {
-            background-color: rgb(45, 180, 160);
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(56, 202, 179, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .message {
-            margin-top: 20px;
-            padding: 15px;
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .status {
+            margin-top: 1.5rem;
+            padding: 1rem;
             border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
             display: none;
         }
         
         .success {
-            background-color: rgba(46, 204, 113, 0.2);
-            color: #27ae60;
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+            display: block;
         }
         
         .error {
-            background-color: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            display: block;
         }
         
-        .instructions {
-            margin-top: 30px;
-            font-size: 14px;
-            color: #777;
-            text-align: left;
-            padding: 15px;
-            background-color: rgba(56, 202, 179, 0.05);
-            border-radius: 8px;
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
         }
         
-        .instructions ol {
-            padding-left: 20px;
-            margin-top: 10px;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
-        .instructions li {
-            margin-bottom: 8px;
+        .features {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .feature {
+            background-color: var(--gray);
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature i {
+            color: var(--primary);
+        }
+        
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        @media (max-width: 576px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="logo">
-            <i class="fab fa-tiktok"></i>
-            <span>TikTok Link Collector</span>
+        <div class="card">
+            <div class="logo">
+                <i class="fab fa-tiktok"></i>
+                <h1>Buff View Pro</h1>
+            </div>
+            
+            <p class="description">
+                Tăng view TikTok tự động chỉ với 1 click. Nhập link video TikTok bên dưới và hệ thống sẽ xử lý ngay lập tức.
+            </p>
+            
+            <div class="input-group">
+                <i class="fas fa-link"></i>
+                <input type="text" id="tiktokLink" placeholder="https://www.tiktok.com/@username/video/123456789" required>
+            </div>
+            
+            <button class="btn" onclick="sendToTelegram()">
+                <span id="btnText">BẮT ĐẦU BUFF VIEW</span>
+                <div id="btnLoader" class="loading" style="display: none;"></div>
+            </button>
+            
+            <div id="status" class="status"></div>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-bolt"></i>
+                    <span>Tốc độ cao</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Bảo mật</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-infinity"></i>
+                    <span>Không giới hạn</span>
+                </div>
+            </div>
         </div>
-        <h1>Share TikTok Videos with Me</h1>
-        <div class="input-group">
-            <input type="text" id="tiktokLink" placeholder="Paste TikTok video link here..." required>
-        </div>
-        <button id="submitBtn">Send to Telegram</button>
         
-        <div id="message" class="message"></div>
-        
-        <div class="instructions">
-            <p><strong>How to use:</strong></p>
-            <ol>
-                <li>Open TikTok and find a video you want to share</li>
-                <li>Tap "Share" and then "Copy link"</li>
-                <li>Paste the link in the field above</li>
-                <li>Click "Send to Telegram"</li>
-            </ol>
-        </div>
+        <footer>
+            © 2023 Buff View Pro | All rights reserved
+        </footer>
     </div>
 
     <script>
-        document.getElementById('submitBtn').addEventListener('click', function() {
-            const tiktokLink = document.getElementById('tiktokLink').value.trim();
-            const messageDiv = document.getElementById('message');
+        function sendToTelegram() {
+            const link = document.getElementById('tiktokLink').value.trim();
+            const statusElement = document.getElementById('status');
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
             
-            // Clear previous messages
-            messageDiv.style.display = 'none';
-            messageDiv.className = 'message';
-            
-            // Validate TikTok link
-            if (!tiktokLink) {
-                showMessage('Please enter a TikTok link', 'error');
+            // Validate input
+            if (!link) {
+                statusElement.className = 'status error';
+                statusElement.innerHTML = '<i class="fas fa-exclamation-circle"></i> Vui lòng nhập link video TikTok';
                 return;
             }
             
-            if (!isValidTikTokLink(tiktokLink)) {
-                showMessage('Please enter a valid TikTok video link', 'error');
+            if (!link.includes('tiktok.com')) {
+                statusElement.className = 'status error';
+                statusElement.innerHTML = '<i class="fas fa-exclamation-circle"></i> Link không hợp lệ, vui lòng nhập link TikTok';
                 return;
             }
             
-            // Send to Telegram (you'll need to replace this with your actual Telegram bot API)
-            sendToTelegram(tiktokLink);
-        });
-        
-        function isValidTikTokLink(link) {
-            // Simple validation - you might want to make this more robust
-            return link.includes('tiktok.com') && (link.includes('/video/') || link.includes('/v/'));
-        }
-        
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.classList.add(type);
-            messageDiv.style.display = 'block';
-        }
-        
-        function sendToTelegram(link) {
-            // Replace this with your actual Telegram bot API integration
-            // This is just a simulation for the demo
+            // Show loading
+            btnText.innerText = 'ĐANG XỬ LÝ...';
+            btnLoader.style.display = 'block';
+            statusElement.style.display = 'none';
             
-            // Your Telegram bot token and chat ID
+            // Thay thế bằng bot token và chat ID của bạn
             const botToken = '7515868934:AAFGlZDj1tHpYdTEM_Q3Mz452Hh27apDq6A';
             const chatId = '5981310539';
             
-            // In a real implementation, you would use fetch() or similar to send to Telegram API
-            // For now, we'll just simulate a successful send
-            setTimeout(() => {
-                showMessage('Link sent successfully to Telegram!', 'success');
-                document.getElementById('tiktokLink').value = '';
-            }, 1000);
+            const now = new Date();
+            const timeString = now.toLocaleString('vi-VN');
+            const message = `📌 LINK TIKTOK MỚI:\n${link}\n⏰ THỜI GIAN: ${timeString}\n━━━━━━━━━━━━\nHệ thống Buff View Pro`;
             
-            // Actual implementation would look something like this:
-            /*
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(link)}`)
+            // Gửi đến Telegram
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`)
                 .then(response => response.json())
                 .then(data => {
-                    showMessage('Link sent successfully to Telegram!', 'success');
-                    document.getElementById('tiktokLink').value = '';
+                    if (data.ok) {
+                        statusElement.className = 'status success';
+                        statusElement.innerHTML = '<i class="fas fa-check-circle"></i> Đã gửi link thành công! Hệ thống đang xử lý...';
+                        document.getElementById('tiktokLink').value = '';
+                    } else {
+                        statusElement.className = 'status error';
+                        statusElement.innerHTML = '<i class="fas fa-exclamation-circle"></i> Có lỗi xảy ra, vui lòng thử lại!';
+                    }
                 })
                 .catch(error => {
-                    showMessage('Failed to send link. Please try again.', 'error');
                     console.error('Error:', error);
+                    statusElement.className = 'status error';
+                    statusElement.innerHTML = '<i class="fas fa-exclamation-circle"></i> Lỗi kết nối, vui lòng thử lại sau!';
+                })
+                .finally(() => {
+                    btnText.innerText = 'BẮT ĐẦU BUFF VIEW';
+                    btnLoader.style.display = 'none';
                 });
-            */
         }
+        
+        // Thêm hiệu ứng khi nhấn Enter
+        document.getElementById('tiktokLink').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendToTelegram();
+            }
+        });
     </script>
 </body>
 </html>
